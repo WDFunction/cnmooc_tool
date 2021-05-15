@@ -226,9 +226,11 @@
   }
 
   if (window.location.pathname.startsWith("/portal/session/unitNavigation")) {
-    GM_notification({ title: '开始执行', text: '正在浏览视频和文档……' });
     let videos = [...document.querySelectorAll("#unitNavigation a[itemtype='10']")].map(v => v.getAttribute("itemid")).filter(v => !document.querySelector(`a[itemid='${v}'] > i.icon-play-done`))
     console.log(videos)
+    if (videos.length) {
+      GM_notification({ title: '开始执行', text: '正在浏览视频……' });
+    }
     for (const itemId of videos) {
       let r = await axios({
         url: '/study/updateDurationVideo.mooc',
@@ -251,6 +253,9 @@
 
     let docs = [...document.querySelectorAll("#unitNavigation a[itemtype='20']")].map(v => v.getAttribute("itemid")).filter(v => !document.querySelector(`a[itemid='${v}'] > i.icon-doc-done`))
     console.log(docs)
+    if (docs.length) {
+      GM_notification({ title: '开始执行', text: '正在浏览文档……' });
+    }
     for (const itemId of docs) {
       let r = await axios({
         url: '/study/updateDurationDoc.mooc',
